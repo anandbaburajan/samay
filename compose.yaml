@@ -25,9 +25,6 @@ services:
     restart: unless-stopped
     env_file:
       - .env
-    environment:
-      # Change this value to the connection string if not using MongoDB container
-      NEXT_MONGODB_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@database:27017/${MONGO_INITDB_DATABASE}?authSource=admin
     networks:
       - samay-network
 
