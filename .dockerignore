@@ -4,3 +4,5 @@ Dockerfile
 .dockerignore
 .env
 compose.yaml
+.github
+.vscode
