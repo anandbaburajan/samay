@@ -10,9 +10,18 @@ services:
         NEXT_PUBLIC_ENCRYPTION_KEY: ${NEXT_PUBLIC_ENCRYPTION_KEY}
         NEXT_PUBLIC_ENCRYPTION_IV: ${NEXT_PUBLIC_ENCRYPTION_IV}
     ports:
+      # Update the host port if another port is to be used 
       - 3000:3000
     depends_on:
-      - database
+      database:
+        condition: service_healthy
+    healthcheck:
+      # Update the host port if another port is to be used
+      test: ["CMD", "wget", "--spider", "-q", "http://0.0.0.0:3000/api/ping"]
+      start_period: 5s
+      interval: 60s
+      timeout: 5s
+      retries: 3
     restart: unless-stopped
     env_file:
       - .env
@@ -31,6 +40,12 @@ services:
       - .env
     networks:
       - samay-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      start_period: 40s
+      interval: 30s
+      timeout: 5s
+      retries: 3
 
 volumes:
   samay-data:
