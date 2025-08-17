@@ -1,6 +1,6 @@
+import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 import connectToDatabase from "../../src/utils/db";
-import mongoose from "mongoose";
 
 export default async (
   req: NextApiRequest,
