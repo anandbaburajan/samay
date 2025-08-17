@@ -6,3 +6,5 @@ Dockerfile
 compose.yaml
 .github
 .vscode
+*.md
+.env.example
