@@ -53,28 +53,17 @@ If you have suggestions for how Samay could be improved or want to report an iss
 
 ### Docker
 
-We have an experimental Docker Compose file that can be used for self-hosting without need for an external database on MongoDB Atlas or other provider. To proceed with self-hosting using Docker Compose:
+We have an experimental quickstart script that can be used to self-host using Docker Compose in less than a minute.
 
-1. Clone the repository.
+To get started, run the command:
 
-   ```shell
-   git clone https://github.com/anandbaburajan/samay
-   cd samay
-   ```
+```shell
+sh -c $("curl -fsSL https://raw.githubusercontent.com/anandbaburajan/samay/main/quickstart.sh")
+```
 
-2. Populate the environment variables based on `.env.example` file based on the instructions provided in it.
+Enter your frontend URL and MongoDB connection string.
 
-   ```shell
-   cp .env.example .env
-   ```
-
-3. Start the cluster after setting the needed values.
-
-   ```shell
-   docker compose up --build
-   ```
-
-The web app can be accessed at http://localhost:3000.
+Once the cluster starts, the web app can be accessed at the URL you have defined.
 
 > [!TIP]
 >
@@ -87,7 +76,7 @@ The web app can be accessed at http://localhost:3000.
 
 > [!TIP]
 >
-> You may wish to use an external database (on Atlas), for which you can remove the `mongo` section in `compose.yaml` and define `NEXT_MONGODB_URI` with the connection string to the external database.
+> You may wish to use an external database (on Atlas), for which you can remove the `database` service in `compose.yaml` and define `NEXT_MONGODB_URI` with the connection string to the external database.
 
 ### Vercel and MongoDB Atlas
 

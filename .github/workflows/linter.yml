@@ -8,12 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: install node v12
+      - name: install node v22
         uses: actions/setup-node@v1
         with:
-          node-version: 12
-      - name: yarn install
-        run: yarn install
+          node-version: 22
+      - name: npm ci --omit=dev
+        run: npm ci --omit=dev
       - name: eslint
         uses: icrawl/action-eslint@v1
         with:

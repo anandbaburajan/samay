@@ -5,20 +5,25 @@ services:
       dockerfile: Dockerfile
       args:
         # Change this value to the connection string if not using MongoDB container
-        NEXT_MONGODB_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@database:27017/${MONGO_INITDB_DATABASE}?authSource=admin
         NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
         NEXT_PUBLIC_ENCRYPTION_KEY: ${NEXT_PUBLIC_ENCRYPTION_KEY}
         NEXT_PUBLIC_ENCRYPTION_IV: ${NEXT_PUBLIC_ENCRYPTION_IV}
     ports:
+      # Update the host port if another port is to be used 
       - 3000:3000
     depends_on:
-      - database
+      database:
+        condition: service_healthy
+    healthcheck:
+      # Update the host port if another port is to be used
+      test: ["CMD", "wget", "--spider", "-q", "http://0.0.0.0:3000/api/ping"]
+      start_period: 5s
+      interval: 60s
+      timeout: 5s
+      retries: 3
     restart: unless-stopped
     env_file:
       - .env
-    environment:
-      # Change this value to the connection string if not using MongoDB container
-      NEXT_MONGODB_URI: mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@database:27017/${MONGO_INITDB_DATABASE}?authSource=admin
     networks:
       - samay-network
 
@@ -31,6 +36,12 @@ services:
       - .env
     networks:
       - samay-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping')"]
+      start_period: 40s
+      interval: 30s
+      timeout: 5s
+      retries: 3
 
 volumes:
   samay-data:
